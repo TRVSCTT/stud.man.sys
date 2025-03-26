@@ -7,10 +7,10 @@
                <div class="page-header">
                   <div class="row align-items-center">
                      <div class="col">
-                        <h3 class="page-title">Add Subjects</h3>
+                        <h3 class="page-title">Edit Subjects</h3>
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="{% url 'subject_list' %}">Subjects</a></li>
-                           <li class="breadcrumb-item active">Add Subjects</li>
+                           <li class="breadcrumb-item"><a href="/subjects">Subjects</a></li>
+                           <li class="breadcrumb-item active">Edit Subjects</li>
                         </ul>
                      </div>
                   </div>
@@ -27,7 +27,7 @@
                                  </div>
                                  <div class="col-12 col-sm-6">
                                     <div class="form-group">
-                                       <label>Name</label>
+                                       <label> Name</label>
                                        <input type="text" class="form-control" name="name" required>
                                     </div>
                                  </div>
@@ -50,7 +50,7 @@
                                           <option value="">Select Department</option>
                                           {% for department in departments %}
                                             <option value="{{ department.id }}">{{ department.name }}</option>
-                                        {% endfor %}
+                                          {% endfor %}
                                        </select>
                                     </div>
                                     <div id="department_error" class="error"></div>
@@ -83,4 +83,4 @@
    </body>
    <!-- Mirrored from preschool.dreamguystech.com/html-template/add-student.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Oct 2021 11:11:50 GMT -->
 </html>
-{% endblock %} 
+{% endblock %}

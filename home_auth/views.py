@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout
 from .models import CustomUser, PasswordResetRequest
 from django.utils import timezone
 from django.contrib import messages
@@ -34,7 +34,7 @@ def signup(request):
             user.is_admin = True
 
         user.save()  # Save the user with the assigned role
-        login(request, user)
+        auth_login(request, user)
         messages.success(request, 'Signup successful!')
         return redirect('index')  # Redirect to the index or home page
     return render(request, 'authentication/register.html')  # Render signup template
@@ -47,7 +47,7 @@ def login(request):
         
         user = authenticate(request, username=email, password=password)
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
             messages.success(request, 'Login successful!')
             
             # Redirect user based on their role

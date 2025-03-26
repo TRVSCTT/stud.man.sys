@@ -54,7 +54,7 @@ def view_teacher(request, slug):
     return render(request, "teachers/teacher-details.html", context)
 
 def edit_teacher(request, slug):
-    teacher = get_object_or_404(Teacher, teacher_id=slug)
+    teacher = get_object_or_404(Teacher, slug=slug)
     if request.method == "POST":
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -77,15 +77,14 @@ def edit_teacher(request, slug):
         teacher.mobile_number = mobile_number
         teacher.section = section
         teacher.save()
-       
+        
         return redirect('teacher_list')
     return render(request, "teachers/edit-teacher.html", {'teacher': teacher})
 
 def delete_teacher(request, slug):
     if request.method == 'POST':
-        teacher = get_object_or_404(Teacher, teacher_id=slug)
+        teacher = get_object_or_404(Teacher, slug=slug)
         teacher_name = f"{teacher.first_name} {teacher.last_name}"
         teacher.delete()
-        create_notification(request.user, f"Deleted teacher: {teacher_name}") # type: ignore
         return redirect ('teacher_list')
     return HttpResponseForbidden()

@@ -8,7 +8,7 @@ from .models import Notification
 def index(request):
     return render(request, "authentication/login.html")
 
-def student_dashboard(request):
+def dashboard(request):
     unread_notification = Notification.objects.filter(user=request.user, is_read=False)
     unread_notification_count = unread_notification.count()
     return render(request, "students/student-dashboard.html")

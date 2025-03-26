@@ -1,8 +1,7 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect ,get_object_or_404
 
 from django.contrib import messages
 from  .models import * 
-from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseForbidden
 # Create your views here.
 def add_department(request):
@@ -43,7 +42,7 @@ def view_department(request, slug):
     return render(request, "departments/department-details.html", context)
 
 def edit_department(request, slug):
-    department = get_object_or_404(Department, department_id=slug)
+    department = get_object_or_404(Department, slug=slug)
     if request.method == "POST":
         name = request.POST.get('name')
         department_id = request.POST.get('department_id')
@@ -55,15 +54,14 @@ def edit_department(request, slug):
         department.section = section
         department.save()
         
-        
         return redirect('department_list')
     return render(request, "departments/edit-departments.html", {'department': department})
 
 def delete_department(request, slug):
     if request.method == 'POST':
-        department = get_object_or_404(Department, department_id=slug)
+        department = get_object_or_404(Department, slug=slug)
         department_name = f"{department.name}"
         department.delete()
-        create_notification(request.user, f"Deleted department: {department_name}") # type: ignore
+
         return redirect('department_list')
     return HttpResponseForbidden()        

@@ -2,8 +2,10 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import *
 from django.contrib import messages
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 # Create your views here.
-
+@api_view()
 def add_student(request):
     if request.method == "POST":
         first_name = request.POST.get('first_name')
@@ -67,7 +69,7 @@ def add_student(request):
     return render(request,"students/add-student.html")
 
 
-
+@api_view()
 def student_list(request):
     student_list = Student.objects.select_related('parent').all()
     unread_notification = request.user.notification_set.filter(is_read=False)
@@ -122,7 +124,6 @@ def edit_student(request,slug):
         student.section = section
         student.save()
        
-        
         return redirect("student_list")
     return render(request, "students/edit-student.html",{'student':student, 'parent':parent} )
 
@@ -140,6 +141,5 @@ def delete_student(request,slug):
         student = get_object_or_404(Student, slug=slug)
         student_name = f"{student.first_name} {student.last_name}"
         student.delete()
-        create_notification(request.user, f"Deleted student: {student_name}") # type: ignore
         return redirect ('student_list')
     return HttpResponseForbidden()
